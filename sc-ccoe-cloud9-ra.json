@@ -31,7 +31,11 @@
 			"Default":"IAC sample IDE",
 			"Description":"Name of the Cloud9 environment"
 		},		
-        "LinkedRepoPath": {
+        "Subnet" : {
+            "Type" : "AWS::EC2::Subnet::Id",
+            "Description" : "Subnet"
+        },
+	    "LinkedRepoPath": {
             "Type": "String",
 			"Default":"",
 			"Description":"Instance's local path for the repo you wish to clone"
@@ -61,6 +65,7 @@
 			  "Description" : "Sample Cloud9 IDE from Service Catalog reference architecture",
 			  "InstanceType" : {"Ref": "InstanceType"},
 			  "Name" : {"Ref":"EnvironmentName"},
+			  "SubnetId": {"Ref": "Subnet"},
 			  "Repositories" : [ 				
 				{
 				  "PathComponent" : "/aws-service-catalog-reference-architectures",
