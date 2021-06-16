@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "VPC: public and private subnets in two availability zones. (fdp-1oc5gkoph)",
+    "Description": "VPC: private subnets in two availability zones. (fdp-1oc5gkoph)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -290,17 +290,6 @@
                         "Value": "Service-Catalog-VPC-Reference-Architecture"
                     }
                 ]
-            }
-        },
-        "RouteTableAssociationAPublic": {
-            "Type": "AWS::EC2::SubnetRouteTableAssociation",
-            "Properties": {
-                "SubnetId": {
-                    "Ref": "SubnetAPublic"
-                },
-                "RouteTableId": {
-                    "Ref": "RouteTableAPublic"
-                }
             }
         },
         "RouteTableAssociationAPrivate": {
