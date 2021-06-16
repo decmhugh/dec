@@ -424,11 +424,6 @@
                 "Ref": "RouteTableBPrivate"
             }
         },
-        "NetworkAclPublic": {
-            "Value": {
-                "Ref": "NetworkAclPublic"
-            }
-        },
         "NetworkAclPrivate": {
             "Value": {
                 "Ref": "NetworkAclPrivate"
