@@ -113,7 +113,10 @@
             "Type": "AWS::EC2::FlowLog",
             "Properties": {
                 "DeliverLogsPermissionArn": {
-                    "Fn::GetAtt": ["FlowLogsRole","Arn"]
+                    "Fn::GetAtt": [
+                        "FlowLogsRole",
+                        "Arn"
+                    ]
                 },
                 "LogGroupName": {
                     "Ref": "FlowLogGroup"
@@ -156,8 +159,8 @@
                     {
                         "PolicyName": "flowlogs-policy",
                         "PolicyDocument": {
-                           "Version" : "2012-10-17",
-                           "Statement": [
+                            "Version": "2012-10-17",
+                            "Statement": [
                                 {
                                     "Effect": "Allow",
                                     "Action": [
@@ -167,7 +170,10 @@
                                         "logs:DescribeLogStreams"
                                     ],
                                     "Resource": {
-                                        "Fn::GetAtt": ["FlowLogGroup","Arn"]
+                                        "Fn::GetAtt": [
+                                            "FlowLogGroup",
+                                            "Arn"
+                                        ]
                                     }
                                 }
                             ]
@@ -379,56 +385,57 @@
                 "Egress": true,
                 "CidrBlock": "0.0.0.0/0"
             }
-        },
-    "Outputs": {
-        "TemplateID": {
-            "Value": "service-catalog-reference-architectures/sc-vpc-ra"
-        },
-        "AWSRegionName": {
-            "Value": {
-                "Ref": "AWS::Region"
-            }
-        },
-        "RegionAZ1Name": {
-            "Value": {
-                "Ref": "RegionAZ1Name"
-            }
-        },
-        "RegionAZ2Name": {
-            "Value": {
-                "Ref": "RegionAZ2Name"
-            }
-        },
-        "VPCCIDR": {
-            "Value": {
-                "Fn::GetAtt": ["VPC","CidrBlock"]
-            }
-        },
-        "SubnetAPrivateCIDR": {
-            "Value": {
-                "Ref": "SubnetAPrivateCIDR"
-            }
-        },
-        "SubnetBPrivateCIDR": {
-            "Value": {
-                "Ref": "SubnetAPrivateCIDR"
-            }
-        },
-        "RouteTableAPrivate": {
-            "Value": {
-                "Ref": "RouteTableAPrivate"
-            }
-        },
-        "RouteTableBPrivate": {
-            "Value": {
-                "Ref": "RouteTableBPrivate"
-            }
-        },
-        "NetworkAclPrivate": {
-            "Value": {
-                "Ref": "NetworkAclPrivate"
+        }
+    },
+        "Outputs": {
+            "AWSRegionName": {
+                "Value": {
+                    "Ref": "AWS::Region"
+                }
+            },
+            "RegionAZ1Name": {
+                "Value": {
+                    "Ref": "RegionAZ1Name"
+                }
+            },
+            "RegionAZ2Name": {
+                "Value": {
+                    "Ref": "RegionAZ2Name"
+                }
+            },
+            "VPCCIDR": {
+                "Value": {
+                    "Fn::GetAtt": [
+                        "VPC",
+                        "CidrBlock"
+                    ]
+                }
+            },
+            "SubnetAPrivateCIDR": {
+                "Value": {
+                    "Ref": "SubnetAPrivateCIDR"
+                }
+            },
+            "SubnetBPrivateCIDR": {
+                "Value": {
+                    "Ref": "SubnetAPrivateCIDR"
+                }
+            },
+            "RouteTableAPrivate": {
+                "Value": {
+                    "Ref": "RouteTableAPrivate"
+                }
+            },
+            "RouteTableBPrivate": {
+                "Value": {
+                    "Ref": "RouteTableBPrivate"
+                }
+            },
+            "NetworkAclPrivate": {
+                "Value": {
+                    "Ref": "NetworkAclPrivate"
+                }
             }
         }
     }
-}
-}
+
