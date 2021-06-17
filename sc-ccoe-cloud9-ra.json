@@ -9,7 +9,7 @@
                     },
                     "Parameters": [
                         "EnvironmentName",
-                        "InstanceType","Subnet",
+                        "InstanceType","Subnet","Username",
 						"HibernateMinutes"
                     ]
                 },
@@ -34,6 +34,9 @@
         "Subnet" : {
             "Type" : "AWS::EC2::Subnet::Id",
             "Description" : "Subnet"
+        },"Username" : {
+            "Type" : "String",
+            "Description" : "Username"
         },
 	    "LinkedRepoPath": {
             "Type": "String",
@@ -64,6 +67,7 @@
 			  "AutomaticStopTimeMinutes" : {"Ref": "HibernateMinutes"},
 			  "Description" : "Sample Cloud9 IDE from Service Catalog reference architecture",
 			  "InstanceType" : {"Ref": "InstanceType"},
+			  "OwnerArn" : {"Ref":"Username"},
 			  "Name" : {"Ref":"EnvironmentName"},
 			  "SubnetId": {"Ref": "Subnet"},
 			  "Repositories" : [ 				
