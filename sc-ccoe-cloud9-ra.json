@@ -69,17 +69,7 @@
 			  "InstanceType" : {"Ref": "InstanceType"},
 			  "OwnerArn" : {"Ref":"Username"},
 			  "Name" : {"Ref":"EnvironmentName"},
-			  "SubnetId": {"Ref": "Subnet"},
-			  "Repositories" : [ 				
-				{
-				  "PathComponent" : "/aws-service-catalog-reference-architectures",
-				  "RepositoryUrl" : "https://github.com/aws-samples/aws-service-catalog-reference-architectures.git"
-				},
-				{
-				  "PathComponent" : {"Ref":"LinkedRepoPath"},
-				  "RepositoryUrl" : {"Ref":"LinkedRepoCloneUrl"}
-				}
-			  ]			  
+			  "SubnetId": {"Ref": "Subnet"},			  
 			}
 		}
 	
