@@ -12,11 +12,6 @@
                         "InstanceType","Subnet","Username",
 						"HibernateMinutes"
                     ]
-                },
-                {
-                    "Label": {
-                        "default": "Linked Git Repo"
-                    }
                 }
             ]
         }
