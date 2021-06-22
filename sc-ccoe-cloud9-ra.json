@@ -16,11 +16,7 @@
                 {
                     "Label": {
                         "default": "Linked Git Repo"
-                    },
-                    "Parameters": [
-                        "LinkedRepoPath",
-                        "LinkedRepoCloneUrl"
-                    ]
+                    }
                 }
             ]
         }
@@ -38,26 +34,16 @@
             "Type" : "String",
             "Description" : "Username"
         },
-	    "LinkedRepoPath": {
-            "Type": "String",
-			"Default":"",
-			"Description":"Instance's local path for the repo you wish to clone"
-		},
-		"LinkedRepoCloneUrl": {
-            "Type": "String",
-			"Default":"",
-			"Description":"Name of the repo you wish to include in the IDE"
-		},
-		"InstanceType": {
+	"InstanceType": {
             "Type": "String",
             "Default":"t2.micro",
             "AllowedValues": ["t2.micro","t2.medium"]
         },
-		"HibernateMinutes" :{
-			"Type": "Number",
-			"Default":60,
-			"Description": "Minutes until instance hibernates after last use"
-		}
+	"HibernateMinutes" :{
+		"Type": "Number",
+		"Default":60,
+		"Description": "Minutes until instance hibernates after last use"
+	}
     },
     
     "Resources": {
