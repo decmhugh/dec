@@ -55,7 +55,7 @@
 			  "InstanceType" : {"Ref": "InstanceType"},
 			  "OwnerArn" : {"Ref":"Username"},
 			  "Name" : {"Ref":"EnvironmentName"},
-			  "SubnetId": {"Ref": "Subnet"},			  
+			  "SubnetId": {"Ref": "Subnet"}			  
 			}
 		}
 	
