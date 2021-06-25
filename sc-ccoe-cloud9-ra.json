@@ -49,7 +49,7 @@
 			  "AutomaticStopTimeMinutes" : {"Ref": "HibernateMinutes"},
 			  "Description" : "Sample Cloud9 IDE from Service Catalog reference architecture",
 			  "InstanceType" : {"Ref": "InstanceType"},
-			  "OwnerARN" : {"Ref": "UserArn"},
+			  "OwnerArn" : {"Ref": "UserArn"},
 			  "Name" : {"Ref":"EnvironmentName"},
 			  "SubnetId": {"Ref": "Subnet"}			  
 			}
