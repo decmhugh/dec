@@ -9,7 +9,7 @@
                     },
                     "Parameters": [
                         "EnvironmentName",
-                        "InstanceType","Subnet","Username",
+                        "InstanceType","Subnet","UserArn",
 						"HibernateMinutes"
                     ]
                 }
@@ -31,6 +31,10 @@
             "Default":"t2.micro",
             "AllowedValues": ["t2.micro","t2.medium"]
         },
+	"UserArn": {
+            "Type": "String",
+            "Default":"arn:aws:iam::272748214518:assumed-role/cssp-xx-role/aXXXXXX"
+        },
 	"HibernateMinutes" :{
 		"Type": "Number",
 		"Default":60,
@@ -45,6 +49,7 @@
 			  "AutomaticStopTimeMinutes" : {"Ref": "HibernateMinutes"},
 			  "Description" : "Sample Cloud9 IDE from Service Catalog reference architecture",
 			  "InstanceType" : {"Ref": "InstanceType"},
+			  "OwnerARN" : {"Ref": "UserArn"},
 			  "Name" : {"Ref":"EnvironmentName"},
 			  "SubnetId": {"Ref": "Subnet"}			  
 			}
