@@ -19,15 +19,12 @@
     "Parameters": {
         "EnvironmentName": {
             "Type": "String",
-			"Default":"IAC sample IDE",
+			"Default":"IAC IDE User",
 			"Description":"Name of the Cloud9 environment"
 		},		
         "Subnet" : {
             "Type" : "AWS::EC2::Subnet::Id",
             "Description" : "Subnet"
-        },"Username" : {
-            "Type" : "String",
-            "Description" : "Username"
         },
 	"InstanceType": {
             "Type": "String",
