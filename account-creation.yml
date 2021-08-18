@@ -1,1 +1,80 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: "Products for CSSP Platform"
+Conditions:
+  IsMasterAccount: !Equals [ !Ref "AWS::AccountId", '803579507913' ]
+  IsNotMasterAccount: !Not [ !Equals [ !Ref "AWS::AccountId", '803579507913' ]]
+Resources:
+  
+  SCLaunchRole:
+    Type: 'AWS::IAM::Role'
+    Condition: IsMasterAccount
+    Properties:
+      RoleName: SCLaunchSCRole
+      ManagedPolicyArns:
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/AdministratorAccess"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - servicecatalog.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+          
+  #https://boi-cssp-cf-templates.s3.eu-west-1.amazonaws.com/ctlz1-management/sa-cloud9-ra-SSM.yml
 
+  BaselinePortfolio:
+    Type: "AWS::ServiceCatalog::Portfolio"
+    Condition: IsMasterAccount
+    Properties:
+      DisplayName: "Account-Products"
+      AcceptLanguage: "en"
+      ProviderName: "CCOE"
+  
+  AccountProduct:
+    Type: "AWS::ServiceCatalog::CloudFormationProduct"
+    Condition: IsMasterAccount
+    Properties:
+      AcceptLanguage: "en"
+      Description: "CSSP Account Factory"
+      Distributor: "CCOE"
+      Name: "CCOE for Account"
+      Owner: "IT Services"
+      SupportEmail: "awsvipteam@boi.com"
+      SupportUrl: "https://www.boi.com"
+      SupportDescription: "Support Description"
+      ProvisioningArtifactParameters:
+      -
+        Description: "June 2021"
+        Name: "June 2021"
+        Info:
+         - LoadTemplateFromURL : "https://raw.githubusercontent.com/decmhugh/dec/3648fb4d3fe0644fe6776e0289a5a3ee4c7cbcf5/account-creation.yml"
+
+  AccountAssociation:
+    Type: "AWS::ServiceCatalog::PortfolioProductAssociation"
+    Condition: IsMasterAccount
+    Properties:
+      ProductId: !Ref AccountProduct
+      PortfolioId: !Ref BaselinePortfolio
+      
+  
+  AccountConstraint:
+    Type: AWS::ServiceCatalog::LaunchRoleConstraint
+    Condition: IsMasterAccount
+    Properties:
+      AcceptLanguage: "en"
+      Description: "Launch Constraint for this AWS Service Catalog product"
+      PortfolioId: !Ref BaselinePortfolio
+      ProductId: !Ref AccountProduct
+      RoleArn: !GetAtt SCLaunchRole.Arn
+  
+  PortfolioPrincipalAssociation:
+    Type: "AWS::ServiceCatalog::PortfolioPrincipalAssociation"
+    Condition: IsMasterAccount
+    Properties:
+      PrincipalARN: "arn:aws:iam::803579507913:role/cssp-developer-view-role"
+      PortfolioId: !Ref BaselinePortfolio
+      PrincipalType: IAM
+      
