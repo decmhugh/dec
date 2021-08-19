@@ -1,0 +1,168 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'CSSP Account Creation Backed By Control Tower'
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "General"
+        Parameters:
+          - AccountName
+          - AccountEmail
+          - ManagedOrganizationalUnit
+      - Label:
+          default: "SSO Configuration"
+        Parameters:
+          - SSOUserFirstName
+          - SSOUserLastName
+          - SSOUserEmail
+      - Label:
+          default: "Additional Information"
+        Parameters:
+          - CostCentre
+          - Environment
+    ParameterLabels:
+      SSOUserFirstName:
+        default: "SSO User First Name"
+      SSOUserLastName:
+        default: "SSO User Last Name"
+      SSOUserEmail:
+        default: "SSO User Email"
+      CostCentre:
+        default: "Cost Centre"
+Parameters:
+  AccountName:
+    Description: "Account name, the new managed Account will be created with this name."
+    Type: String
+    AllowedPattern : ".+"
+  AccountEmail:
+    Description: "Account email, must be unique for each AWS Account."
+    Type: String
+    AllowedPattern : "[^\\s@]+@[^\\s@]+\\.[^\\s@]+"
+  SSOUserFirstName:
+    Description:  "SSO user first name."
+    Type: String
+    AllowedPattern : ".+"
+  SSOUserLastName:
+    Description:  "SSO user last name."
+    Type: String
+    AllowedPattern : ".+"
+  SSOUserEmail:
+    Description: "SSO user email. A new SSO user will be created for this email, if it does not exist. This SSO user will be associated with the new managed Account."
+    Type: String
+    AllowedPattern : "[^\\s@]+@[^\\s@]+\\.[^\\s@]+"
+  ManagedOrganizationalUnit:
+    Description: "Managed organizational unit. The managed Account will be placed under this Organizational Unit."
+    Type: String
+    AllowedValues:
+      - Sandbox
+      - Production
+      - Non Production
+      - Shared Services
+  CostCentre:
+    Description: "Corp Cost Centre"
+    Type: String
+    MinLength: 6
+    MaxLength: 6
+    AllowedPattern : "[0-9]{6}"
+  Environment:
+    Description: "Account Environment"
+    Type: String
+    AllowedValues:
+      - Sandbox
+      - Test
+      - Dev
+      - SIT
+      - Pre-Prod
+      - Prod
+    Default: "Sandbox"
+  AccountType:
+    Description: "Choose a self managed account or a CCoE managed account."
+    Type: String
+    AllowedValues:
+      - Self Managed Account - Account owner fully accountable for everything in account.
+      - CCoE Managed Account - CCoE Managed service.
+
+Resources:
+  CTAccount:
+    Type: AWS::ServiceCatalog::CloudFormationProvisionedProduct
+    Properties:
+      ProductId: "prod-z2mtr5v3puaui"
+      ProvisioningArtifactId: "pa-h6v6ilhkepwco"
+      ProvisioningParameters:
+        - Key: SSOUserEmail
+          Value: !Ref SSOUserEmail
+        - Key: AccountEmail
+          Value: !Ref AccountEmail
+        - Key: SSOUserFirstName
+          Value: !Ref SSOUserFirstName
+        - Key: SSOUserLastName
+          Value: !Ref SSOUserLastName
+        - Key: ManagedOrganizationalUnit
+          Value: !Ref ManagedOrganizationalUnit
+        - Key: AccountName
+          Value: !Ref AccountName
+        - Key: ManagedBy
+          Value: !Ref AccountType
+        - Key: CostCentre
+          Value: !Ref CostCentre
+
+  # Custom resource fun
+  # CustomResourceLambda:
+  #   Type: "AWS::Lambda::Function"
+  #   Properties:
+  #     Handler: "index.lambda_handler"
+  #     Role: !GetAtt CustomResourceExecutionRole.Arn
+  #     Code:
+  #       ZipFile: !Sub |
+  #         import json
+  #         import boto3
+  #         def lambda_handler(event, context):
+  #             print(event)
+  #
+  #             # Create...
+  #             if event['RequestType'] == 'Create':
+  #                 # Your code
+  #                 print("Create")
+  #             # Deletion event
+  #             if event['RequestType'] == 'Delete':
+  #                 # Even more of your code
+  #                 print("Delete")
+  #
+  #             cfnresponse.send(event, context, "SUCCESS", responseData)
+  #             return responseData
+  #     Runtime: "python3.7"
+  #     Timeout: 360
+  # CustomResourceExecutionRole:
+  #   Type: AWS::IAM::Role
+  #   Properties:
+  #     AssumeRolePolicyDocument:
+  #       Version: '2012-10-17'
+  #       Statement:
+  #         - Effect: Allow
+  #           Principal:
+  #             Service:
+  #               - lambda.amazonaws.com
+  #           Action:
+  #             - sts:AssumeRole
+  #     Path: "/"
+  #     Policies:
+  #       - PolicyName: root
+  #         PolicyDocument:
+  #           Version: '2012-10-17'
+  #           Statement:
+  #             - Effect: Allow
+  #               Action:
+  #                 - logs:*
+  #               Resource: arn:aws:logs:*:*:*
+  #             - Effect: Allow
+  #               Action:
+  #                 - "iam:CreateUser"
+  #               Resource:
+  #                 - "*"
+  # TheResource:
+  #   Type: Custom::AccountFactoryV2
+  #   DependsOn: [CTAccount]
+  #   Properties:
+  #     ServiceToken: !GetAtt CustomResourceLambda.Arn
+  #     AccountId: !GetAtt CTAccount.Outputs.AccountId
