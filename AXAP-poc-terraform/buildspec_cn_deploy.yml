@@ -1,0 +1,25 @@
+--- 
+env:
+  variables:
+    CMK_ARN: "arn:aws:kms:eu-central-1:272748214518:key/c33f87a6-bb04-4342-9575-50eb2f834638"
+    DEPLOY_REGION: eu-central-1
+    S3_BUCKET: axap-aws-ci-cd-artifacts
+phases:
+  build:
+    commands:
+      - "export TIMESTAMP=$(date +%s)"
+      - "ls"
+      - "python deploy.py application-icg-cn-crossaccount-roles"
+  install:
+    commands:
+      - pip install --upgrade --quiet pip
+      - pip install --upgrade --quiet boto3
+      - pip install --upgrade awscli
+    pre_build:
+      commands:
+      - AWS_REGION=DEPLOY_REGION
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_VERSION=${COMMIT_HASH}
+
+    
+version: 0.2
